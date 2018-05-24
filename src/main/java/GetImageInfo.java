@@ -3,7 +3,6 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -15,10 +14,10 @@ public class GetImageInfo {
 
     public static void main(String[] args) {
         // number: the number of images you want to parse
-        new GetImageInfo().getInfoFromInternet(30);
+        int number = 200;
+        new GetImageInfo().getInfoFromInternet(number);
 
     }
-
 
     public void getInfoFromInternet(int tar) {
 
