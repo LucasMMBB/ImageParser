@@ -15,6 +15,9 @@ import java.nio.file.Paths;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * Downloader
+ */
 public class DownLoader {
 
     private ThreadPoolExecutor executor;
@@ -59,7 +62,7 @@ public class DownLoader {
 
     private void download(String id) {
 
-        String url = "http://img0.adesk.com/download/" + id;
+        String url = "http://img.aibizhi.adesk.com/" + id;
 
 
         try {
@@ -80,9 +83,8 @@ public class DownLoader {
             Response response = call.execute();
 
             String type = response.header("Content-Type");
-            System.out.println("inside downloader");
 
-            if (type != null) {
+            if (type != null && type.startsWith("image/")) {
 
                 String path = "/home/maoxu/Downloads/tmp/";
 
@@ -91,7 +93,7 @@ public class DownLoader {
                 File file = new File(image_path);
 
 
-                System.out.println("making new files!!");
+
                 System.out.println("" + file.getName());
 
                 FileOutputStream fileOutputStream = new FileOutputStream(file);
@@ -108,6 +110,7 @@ public class DownLoader {
                     if (buffer.hasRemaining()) {
                         buffer.put(aByte);
                     } else {
+                        //如果buffer满了，则写入文件
                         buffer.flip();
                         fileChannel.write(buffer);
                         buffer.compact();
@@ -115,19 +118,19 @@ public class DownLoader {
                     }
                 }
 
+                //将剩余的也一并写入文件
                 buffer.flip();
                 fileChannel.write(buffer);
                 buffer.clear();
 
                 fileChannel.close();
                 fileOutputStream.close();
-            }else {
-                System.out.println("Unable to make new files!!!");
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 
 }
